@@ -70,9 +70,10 @@ for ix, link in osm_network.iterrows():
             test = json.loads(information)
             elevation_fin = test['altitude'] #(test.split(start))[1].split(end)[0]
     
-            command = """UPDATE  {0}.{1} SET elevation_debut = {2}, elevation_fin = {3} WHERE id = {4};""".format(schema, table_name, elevation_debut, elevation_fin, link_id)
-            with engine.connect() as con:
-                con.execute(command)
+            if str(elevation_debut).isnumeric() and str(elevation_fin).isnumeric():
+                command = """UPDATE  {0}.{1} SET elevation_debut = {2}, elevation_fin = {3} WHERE id = {4};""".format(schema, table_name, elevation_debut, elevation_fin, link_id)
+                with engine.connect() as con:
+                    con.execute(command)
     
             done = 1
             time.sleep(0.5)
